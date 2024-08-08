@@ -1,10 +1,14 @@
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from bot.trading_bot import TradingBot
 from algorithms.mean_reversion import mean_reversion_strategy
 from algorithms.momentum import momentum_strategy
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+
+@app.route('/')
+def serve_frontend():
+    return send_from_directory('', 'index.html')
 
 @app.route('/run_bot', methods=['POST'])
 def run_bot():
